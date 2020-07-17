@@ -30,6 +30,23 @@ __global__ void sample2(float *c)
 	c[idx] = a + b;
 }
 
+__global__ void sample3(float *c)
+{
+	int idx = threadIdx.x + blockIdx.x * blockDim.x;
+	float a, b;
+	a = b = 0.0f;
+
+    bool pred = (idx % 2 == 0);
+
+	if (pred)
+		a = 10.0;
+    
+    if (!pred)
+		b = 20.0;
+
+	c[idx] = a + b;
+}
+
 void bench()
 {
 	float *dev_c;
@@ -65,6 +82,13 @@ void bench()
 	cudaDeviceSynchronize();
 	cudaEventElapsedTime(&duration_ms, start, stop);
 	printf("sample2 <<<%d, %d>>> elapsed time: %.4f ms\n", grid.x, blk.x, duration_ms);
+
+	cudaEventRecord(start);
+	sample3<<<grid, blk>>>(dev_c);
+	cudaEventRecord(stop);
+	cudaDeviceSynchronize();
+	cudaEventElapsedTime(&duration_ms, start, stop);
+	printf("sample3 <<<%d, %d>>> elapsed time: %.4f ms\n", grid.x, blk.x, duration_ms);
 
 	cudaEventDestroy(start);
 	cudaEventDestroy(stop);

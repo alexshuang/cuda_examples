@@ -1,6 +1,6 @@
 #include <cuda_runtime.h>
 #include <cstdio>
-#include "../common.h"
+#include "../common/common.h"
 #include <cstdlib>
 
 __global__ void gpu_add(float *c, const float *a, const float *b, ssize_t nx, ssize_t ny)
@@ -99,9 +99,11 @@ int main(int argc, char **args)
 	int nx = 1 << 14, ny = 1 << 14;
 
 	bench(nx, ny, 32, 32, true);
+/*
 	bench(nx, ny, 32, 16, true);
 	bench(nx, ny, 16, 32, true);
 	bench(nx, ny, 16, 16, true);
+*/
 
 	cudaDeviceReset();
 

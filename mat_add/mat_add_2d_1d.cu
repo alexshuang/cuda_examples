@@ -1,6 +1,6 @@
 #include <cuda_runtime.h>
 #include <cstdio>
-#include "../common.h"
+#include "../common/common.h"
 #include <cstdlib>
 
 __global__ void gpu_add(float *c, const float *a, const float *b, ssize_t nx, ssize_t ny)
